@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conteo</title>
+    <style>
+        *{
+            margin: 0; padding: 0; box-sizing: border-box;
+        }
+        body{
+            overflow-x: hidden;
+            padding-top: .7em !important;
+            padding-right: 2em;
+            padding-left: 2em;
+            padding-bottom: 2em;
+            text-align: center;
+            background: #ffe;
+        }
+        
+        .conte{
+            transition: .3s ease;
+            padding: 2em;
+            border-radius: 10px;
+            position: absolute;
+            transform: scale(0);
+            box-shadow: -15px -15px 15px 1px rgba(255, 255, 255, .2),
+            15px 15px 15px 1px rgba(0, 0, 0, .1),
+            inset -5px -5px 5px 1px rgba(255, 255, 255, .2),
+            inset 5px 5px 5px 1px rgba(0, 0, 0, .1);
+            min-height: 90vh;
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            overflow: auto;
+        }
+        .conteActivo{
+            position: relative;
+            transform: scale(1);
+        }
+        [type="range"]{
+            max-width: 600px;
+            display: block;
+            margin: auto;
+            width: 100%;
+        }
+        .pri > *, .sec > *{
+            width: 100%;
+            height: 100%;
+        }
+        .pri > * > *{
+            margin: 2em 0;
+        }
+        #nom{
+            width: 80%;
+            border: #9ff solid 5px;
+            border-radius: 5px;
+            font-size: 1.2em;
+            padding: .5em .3em;
+        }
+
+        .p{
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        .p > *{
+            width: 45%;
+            margin: .4em 0;
+            padding: .6em;
+            border-radius: 5px;
+            min-width: 70px;
+            background: #9ff;
+        }
+
+        .pun6 > *{
+            margin: 2em 0;
+        }
+
+
+        .btn{
+            position: absolute;
+            bottom: 5%;
+            right: 5%;
+            background: #9ff;
+            padding: .6em .3em;
+            font-size: 1.2em;
+            border-radius: 5px;
+        }
+
+        
+        .ult > div{
+            height: 100%;
+            width: 100%;
+        }
+        .unaper{
+            height: 100%;
+            width: 100%;
+        }
+        .unaper h3{
+            position: absolute;
+            top: 8%;
+            font-size: 1.5em;
+            width: 85%;
+            margin: auto;
+            border-bottom: 5px solid #9ff;
+        }
+        .unaper p{
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .unaper p b{
+            width: 45%;
+            margin: 1em 0;
+            background: #9ff;
+            padding: 1em 0;
+            border-radius: 5px;
+        }
+
+        .unaper i{
+            display: block;
+            margin: auto;
+            font-size: 1.3em;
+            margin-top: 2em;
+            width: 90%;
+            padding: 1em 0;
+            box-shadow: -15px -15px 15px 1px rgba(255, 255, 255, .2),
+            15px 15px 15px 1px rgba(0, 0, 0, .1),
+            inset -5px -5px 5px 1px rgba(255, 255, 255, .2),
+            inset 5px 5px 5px 1px rgba(0, 0, 0, .1);
+            border-radius: 10px;
+        }
+
+        nav{
+            z-index: 1;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            margin: .5em 0;
+            position: sticky;
+            top: 5px;
+            margin-bottom: 1em;
+        }
+        nav p{
+            padding: .5em .4em;
+            font-size: 1.05em;
+            border-radius: 10px;
+            background: #9ff;
+        }
+
+        .navpActivo{
+            background: #ffe;
+            box-shadow: -10px -10px 10px 1px rgba(255, 255, 255, .2),
+            10px 10px 10px 1px rgba(0, 0, 0, .1),
+            inset -5px -5px 5px 1px rgba(255, 255, 255, .2),
+            inset 5px 5px 5px 1px rgba(0, 0, 0, .1);
+        }
+        .perso{
+            display: block;
+            padding: 1.5em .5em;
+        }
+        .perso h3{
+            font-size: 1.6em;
+        }
+
+        .conteperparti > div{
+            font-size: .98em;
+            margin-left: 3em;
+            margin-right: 3em;
+            margin-top: 1.5em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1em;
+            margin-bottom: .5em;
+            border: 5px solid #9ff;
+            border-radius: 10px;
+        }
+        .conteperparti > div > h4{
+            width: 25%;
+            height: 100%;
+            font-size: 1.3em;
+            padding: .3em .6em;
+            /*padding: auto;*/
+        }
+        .conteperparti > div > div > p {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .conteperparti > div > div > p > b{
+            width: 45%;
+            padding: .7em 0;
+            margin: .4em 0;
+            background: #9ff;
+        }
+        .conteperparti > div > div > i{
+            display: block;
+            margin: .4em 0;
+            width: 100%;
+            background: #9ff;
+            font-size: 1.3em;
+            padding: .4em 0;
+        }
+        
+        .elimnarregistros{
+            background: #9ff;
+            padding: .6em .3em;
+            font-size: 1.2em;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .heperso{
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            width: 90%;
+            border-bottom: 5px solid #9ff;
+            padding-bottom: 1em;
+            margin: auto;
+        }
+        @media screen and (max-width: 600px) {
+            body{
+                padding: 1.4em .5em;
+            }
+            .conte{
+                padding: 1.5em;
+            }
+            .conteperparti > div{
+                margin-left: 1em;
+                margin-right: 1em;
+            }
+        }
+        @media screen and (max-width: 520px) {
+            .conteperparti > div{
+                flex-direction: column;
+            }
+            .conteperparti > div{
+                margin-left: 0;
+                margin-right: 0;
+            }
+            .conteperparti > div > h4{
+                width: 100%;
+            }
+        }
+        @media screen and (max-width: 420px){
+            .conte{
+                padding-right: 1em;
+                padding-left: 1em;
+            }
+        }
+        @media screen and (max-width: 360px){
+            .conteperparti > div > div > p > b{
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="all">
+        <nav>
+            <p class="inser navpActivo">Crear puntuacion</p>
+            <p class="ver">Ver participantes</p>
+        </nav>
+        <div class="pri conte conteActivo">
+            <div>
+                <h2>Ingresa el nombre</h2>
+                <input type="text" id="nom">
+                <p class="btn btnpri">siguiente</p>
+            </div>
+        </div>
+
+        <div class="sec conte ">
+            <div>
+                <h2></h2>
+                <div class="pun4">
+                    <h3></h3>
+                    <div class="p">
+                        <p class="mas1">0.1</p>
+                        <p class="mas3">0.3</p>
+                    </div>
+                    <div class="p">
+                        <p class="menos1">-0.1</p>
+                        <p class="menos3">-0.3</p>
+                    </div>
+                </div>
+                <div class="pun6">
+                    <h3 class="itotal"></h3>
+                    <div>
+                        <p>Puntos de ... :<i class="i"></i></p>
+                        <input type="range" id="ran0" min="0" max="2" value="2" step=".1">
+                    </div>
+                    <div>
+                        <p>Puntos de ... :<i class="i"></i></p>
+                        <input type="range" id="ran1" min="0" max="2" value="2" step=".1">
+                    </div>
+                    <div>
+                        <p>Puntos de ... :<i class="i"></i></p>
+                        <input type="range" id="ran2" min="0" max="2" value="2" step=".1">
+                    </div>
+                </div>
+                <p class="btn btnsec">guardar y calcular</p>
+                <br><br><br>
+            </div>
+        </div>
+
+        <div class="ult conte">
+            <div>
+                
+            </div>    
+        </div>
+        <div class="perso conte">
+            <div>
+                <div class="heperso">
+                    <h3>Participante</h3> <p class="elimnarregistros">Eliminar registros</p>
+                </div>
+                <div class="conteperparti">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="unpaticipantedelocal">
+        
+    </div>
+    
+<script>
+localStorage.getItem("participantes") ? false : localStorage.setItem("participantes", "[]")
+
+let conteperparti = document.querySelector(".conteperparti")
+
+    document.querySelector(".elimnarregistros").addEventListener("click", e=>{
+        localStorage.removeItem("participantes")
+        location.reload()
+    })
+
+    document.querySelector(".ver").addEventListener("click", e=>{
+        conteperparti.innerHTML = ""
+        document.querySelector(".ver").classList.add("navpActivo")
+        document.querySelector(".inser").classList.remove("navpActivo")
+
+        document.querySelectorAll(".conte").forEach(ele => ele.classList.remove("conteActivo"))
+        document.querySelector(".perso").classList.add("conteActivo")
+
+
+        let participantes = JSON.parse(localStorage.getItem("participantes"))
+        
+
+        participantes.forEach(ele =>{
+            conteperparti.innerHTML += `
+        <div>
+            <h4>${ele.nom}</h4>
+            <div>
+                <p>
+                    <b> Puntuacion 4:${ele.puntuacion.pun4}</b>
+                    <b> Puntuacion ...:${ele.puntuacion.pun2_0}</b>
+                    <b> Puntuacion ...:${ele.puntuacion.pun2_1}</b>
+                    <b> Puntuacion ...:${ele.puntuacion.pun2_2}</b>
+                </p>
+                <i>Total${ele.puntuacion.total}</i>
+            </div>    
+        </div>
+            `
+        })
+    })
+
+
+
+
+
+    document.querySelector(".inser").addEventListener("click", e=>{
+        conteperparti.innerHTML = ""
+        document.querySelector(".ver").classList.remove("navpActivo")
+        document.querySelector(".inser").classList.add("navpActivo")
+
+        document.querySelector(".pri").classList.add("conteActivo")
+        document.querySelector(".perso").classList.remove("conteActivo")
+    })
+
+
+    document.querySelector(".btnpri").addEventListener("click", e=>{
+        if (document.querySelector("#nom").value.trim() === "") {
+            document.querySelector("#nom").value = ""
+            document.querySelector("#nom").focus()
+            return false
+        }
+        document.querySelector(".pri").classList.remove("conteActivo")
+        document.querySelector(".sec h2").textContent = document.querySelector("#nom").value
+        document.querySelector(".sec").classList.add("conteActivo")
+    })
+
+    document.querySelector(".btnsec").addEventListener("click", e=>{
+        let selec = document.querySelector
+        document.querySelector(".sec").classList.remove("conteActivo")
+        document.querySelector(".ult").classList.add("conteActivo")
+
+
+        let nom = document.querySelector("#nom").value,
+        pun4 = parseFloat(document.querySelector(".pun4 h3").innerHTML),
+        pun2_0 = parseFloat(document.querySelectorAll("i")[0].innerHTML),
+        pun2_1 = parseFloat(document.querySelectorAll("i")[1].innerHTML),
+        pun2_2 = parseFloat(document.querySelectorAll("i")[2].innerHTML),
+        total = pun4 + pun2_0 + pun2_1 + pun2_2;
+
+        total = total.toFixed(1)
+
+        document.querySelector(".ult div").innerHTML = `
+        <div class="unaper">
+            <h3>${nom}</h3>
+            <p>
+                <b>Punto 4: ${pun4}</b>
+                <b>Puntos de ... : ${pun2_0}</b>
+                <b>Puntos de ... : ${pun2_1}</b>
+                <b>Puntos de ... : ${pun2_2}</b>  
+            </p>
+            <i>Total ${total} </i>
+        </div>
+        <p class="btn reload">continuar</p>
+        `
+
+        let participantes = JSON.parse(localStorage.getItem("participantes"))
+        participantes.push({
+            nom,
+            puntuacion : {
+                pun4,
+                pun2_0,
+                pun2_1,
+                pun2_2,
+                total
+            }
+        })
+        localStorage.setItem("participantes", JSON.stringify(participantes))
+            document.querySelector(".reload").addEventListener("click", e=>{
+            location.reload()
+        })
+    })
+
+    const $inputrange = document.querySelectorAll("[type='range']"), 
+    $p = document.querySelectorAll(".p p")
+    
+    let sumarange = 0, total4 = 4
+    
+    $p.forEach((el, key)=>{
+        document.querySelector(".pun4 h3").innerHTML = total4
+        el.addEventListener("click",e =>{
+            total4+= parseFloat(el.innerHTML) 
+            total4 >= 4 ? total4 = 4 : total4 <= 0 ? total4 = 0 : false;
+            document.querySelector(".pun4 h3").innerHTML = total4.toFixed(1)
+        })
+    })
+
+    $inputrange.forEach((ele, key)=>{
+        sumarange += parseFloat(ele.value)
+        document.querySelectorAll(".i")[key].innerHTML = ele.value
+        document.querySelector(".itotal").innerHTML = sumarange
+
+        ele.addEventListener("change", e=>{
+            sumarange = 0
+            $inputrange.forEach(e=> sumarange += parseFloat(e.value))
+            document.querySelectorAll(".i")[key].innerHTML = ele.value
+            document.querySelector(".itotal").innerHTML = sumarange
+        })
+    })
+
+    
+</script>
+</body>
+</html>
